@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="arm_3dof">
+
+    <xacro:include filename="$(find manipulator_3dof_description)/urdf/materials.urdf.xacro"/>
+    <xacro:include filename="$(find manipulator_3dof_description)/urdf/inertial_macros.xacro"/>
+
+    <xacro:property name="width" value="0.25" />
+    <xacro:property name="length_link1" value="0.4" />
+    <xacro:property name="height" value="0.15" />
+    <xacro:property name="wheel_radius" value="0.075" />
+    <xacro:property name="wheel_length" value="0.04" />
+
+    <link name="base_link"/>
+
+    <joint name="joint1" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="link1"/>
+    </joint>
+
+    <link name="link1">
+        <visual>
+            <origin xyz="0 0 ${height/2}" rpy="0 0 0"/>
+            <geometry>
+                <box size="${length_link1} ${width} ${height}"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+
+        <collision>
+            <origin xyz="0 0 ${height/2}" rpy="0 0 0"/>
+            <geometry>
+                <box size="${length_link1} ${width} ${height}"/>
+            </geometry>
+        </collision>
+
+        <xacro:inertial_box mass="0.5" x="${length_link1}" y="${width}" z="${height}">
+            <origin xyz="0 0 ${height/2}" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+</robot>
