@@ -8,6 +8,10 @@
     </material>
 
     <material name="blue">
-    <color rgba="0.1 0.25 0.9 1.0"/>
-  </material>
+        <color rgba="0.1 0.25 0.9 1.0"/>
+    </material>
+
+    <material name="green">
+        <color rgba="0.1 0.9 0.25 1.0"/>
+    </material>
 </robot>
