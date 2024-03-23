@@ -4,23 +4,26 @@
     <xacro:include filename="$(find manipulator_3dof_description)/urdf/materials.urdf.xacro"/>
     <xacro:include filename="$(find manipulator_3dof_description)/urdf/inertial_macros.xacro"/>
 
-    <xacro:property name="width" value="0.25" />
+    <xacro:property name="width" value="0.15" />
     <xacro:property name="length_link1" value="0.4" />
-    <xacro:property name="height" value="0.1" />
-    <xacro:property name="wheel_radius" value="0.075" />
-    <xacro:property name="wheel_length" value="0.04" />
+    <xacro:property name="length_link2" value="0.3" />
+    <xacro:property name="length_link3" value="0.2" />
+    <xacro:property name="height" value="0.08" />
 
     <link name="base_link"/>
 
-    <joint name="joint1" type="fixed">
+    <joint name="joint1" type="revolute">
+        <axis xyz="0 0 1"/>
         <origin xyz="0 0 0" rpy="0 0 0"/>
+        <!-- <limit effort="1000.0" lower="0.0" upper="0.548" velocity="0.5"/> -->
+        <limit effort="1000.0" lower="${-pi}" upper="${pi}" velocity="0.5"/>
         <parent link="base_link"/>
         <child link="link1"/>
     </joint>
 
     <link name="link1">
         <visual>
-            <origin xyz="0 0 ${height/2}" rpy="0 0 0"/>
+            <origin xyz="${length_link1/2} 0 0" rpy="0 0 0"/>
             <geometry>
                 <box size="${length_link1} ${width} ${height}"/>
             </geometry>
@@ -28,14 +31,82 @@
         </visual>
 
         <collision>
-            <origin xyz="0 0 ${height/2}" rpy="0 0 0"/>
+            <origin xyz="${length_link1/2} 0 0" rpy="0 0 0"/>
             <geometry>
                 <box size="${length_link1} ${width} ${height}"/>
             </geometry>
         </collision>
 
         <xacro:inertial_box mass="0.5" x="${length_link1}" y="${width}" z="${height}">
-            <origin xyz="0 0 ${height/2}" rpy="0 0 0"/>
+            <origin xyz="${length_link1/2} 0 0" rpy="0 0 0"/>
         </xacro:inertial_box>
     </link>
+
+    <joint name="joint2" type="revolute">
+        <axis xyz="0 0 1"/>
+        <origin xyz="${length_link1} 0 0" rpy="0 0 0"/>
+        <!-- <limit effort="1000.0" lower="0.0" upper="0.548" velocity="0.5"/> -->
+        <limit effort="1000.0" lower="${-pi}" upper="${pi}" velocity="0.5"/>
+        <parent link="link1"/>
+        <child link="link2"/>
+    </joint>
+
+    <link name="link2">
+        <visual>
+            <origin xyz="${length_link2/2} 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="${length_link2} ${width} ${height}"/>
+            </geometry>
+            <material name="green"/>
+        </visual>
+
+        <collision>
+            <origin xyz="${length_link2/2} 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="${length_link2} ${width} ${height}"/>
+            </geometry>
+        </collision>
+
+        <xacro:inertial_box mass="0.5" x="${length_link2}" y="${width}" z="${height}">
+            <origin xyz="${length_link2/2} 0 0" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+
+    <joint name="joint3" type="revolute">
+        <axis xyz="0 0 1"/>
+        <origin xyz="${length_link2} 0 0" rpy="0 0 0"/>
+        <!-- <limit effort="1000.0" lower="0.0" upper="0.548" velocity="0.5"/> -->
+        <limit effort="1000.0" lower="${-pi}" upper="${pi}" velocity="0.5"/>
+        <parent link="link2"/>
+        <child link="link3"/>
+    </joint>
+
+    <link name="link3">
+        <visual>
+            <origin xyz="${length_link3/2} 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="${length_link3} ${width} ${height}"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+
+        <collision>
+            <origin xyz="${length_link3/2} 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="${length_link3} ${width} ${height}"/>
+            </geometry>
+        </collision>
+
+        <xacro:inertial_box mass="0.5" x="${length_link3}" y="${width}" z="${height}">
+            <origin xyz="${length_link3/2} 0 0" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+
+    <joint name="to_end_effector" type="fixed">
+        <origin xyz="${length_link3} 0 0" rpy="0 0 0"/>
+        <parent link="link3"/>
+        <child link="end_effector"/>
+    </joint>
+
+    <link name="end_effector"/>
 </robot>
