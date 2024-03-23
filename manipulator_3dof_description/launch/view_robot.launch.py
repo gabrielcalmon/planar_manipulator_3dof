@@ -40,18 +40,18 @@ def generate_launch_description():
         condition=IfCondition(enable_joint_state_publisher_gui)
     )
 
-    # rviz_config = os.path.join(
-    #   get_package_share_directory(pkg_name),
-    #   'config',
-    #   'box_bot.rviz'
-    # )
+    rviz_config = os.path.join(
+      get_package_share_directory(pkg_name),
+      'config',
+      'view_robot.rviz'
+    )
 
     rviz_node = Node(
         package="rviz2",
         executable="rviz2",
         name="rviz2",
         output="screen",
-        # arguments=['-d', rviz_config]
+        arguments=['-d', rviz_config]
     )
 
     return LaunchDescription([
